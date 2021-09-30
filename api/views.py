@@ -18,7 +18,6 @@ def index(request):
         print('post request')
         username = request.POST.get("username")
         password = request.POST.get("pass")
-        user = User.objects.all().filter(username=username)
 
         user = authenticate(request, username=username, password=password)
 

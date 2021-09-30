@@ -9,7 +9,6 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate,login
 
 def index(request):
-    print(request.method)
     print("hello")
     if (request.method == 'GET'):
         return render(request, 'index.html')
@@ -21,9 +20,12 @@ def index(request):
         password = request.POST.get("pass")
         user = User.objects.all().filter(username=username)
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
         else:
-            print("error")
+            print('Error')
+
+            response = {'user invalid': 'Error'}
+            return JsonResponse(response)

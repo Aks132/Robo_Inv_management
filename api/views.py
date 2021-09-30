@@ -23,6 +23,8 @@ def index(request):
 
         if user is not None:
             login(request, user)
+            response = {'user ': 'user loged in'}
+            return JsonResponse(response)
         else:
             print('Error')
 

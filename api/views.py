@@ -2,9 +2,11 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from  .serializers import electronicsSerializer
+from  .models import Electronics
 
 from django.contrib.auth import authenticate,login
 
@@ -23,8 +25,14 @@ def index(request):
 
         if user is not None:
             login(request, user)
-            response = {'user ': 'user loged in'}
-            return JsonResponse(response)
+            order = Electronics.objects.all()
+            # order.update(orderassign='anil')
+            # order = Orders.objects.all().filter(id= 1)
+            ser = electronicsSerializer(order, many=True)
+            response = ser.data
+            #return JsonResponse(response, safe=False)
+            return render(request , 'test.html')
+
         else:
             print('Error')
 

@@ -29,7 +29,7 @@ def signup(request):
 
         else:
 
-            user = User( username=username, password=password)
+            user = User(username=username, password=password)
             user.save()
 
             login(request, user)
@@ -50,12 +50,15 @@ def index(request):
         return render(request, 'index.html')
 
 
+
     if (request.method == 'POST'):
         print('post request')
         username = request.POST.get("username")
         password = request.POST.get("pass")
+        print(username+password)
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(username=username, password=password)
+        print(user)
 
         if user is not None:
             login(request, user)
@@ -65,7 +68,19 @@ def index(request):
             ser = electronicsSerializer(order, many=True)
             response = ser.data
             #return JsonResponse(response, safe=False)
-            return render(request , 'test.html')
+            item = {
+                'id': '0',
+                'itemname': 'battery',
+                'category': 'Electronics',
+                'takenby': 'anil',
+                'atatus': 'inuse',
+
+            }
+
+            itemlist = [item, item, item]
+
+            return render(request, 'table.html', {'itemlist': itemlist})
+
 
         else:
             print('Error')

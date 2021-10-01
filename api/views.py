@@ -10,6 +10,40 @@ from  .models import Electronics
 
 from django.contrib.auth import authenticate,login
 
+
+def signup(request):
+    print("hello")
+    if (request.method == 'GET'):
+        return render(request, 'signup.html')
+
+    if (request.method == 'POST'):
+        print('post request')
+        username = request.POST.get("username")
+        password = request.POST.get("pass")
+
+        if (User.objects.all().filter(username=username).exists()):
+
+            response = {'user taken': 'try again'}
+            return JsonResponse(response)
+
+
+        else:
+
+            user = User( username=username, password=password)
+            user.save()
+
+            login(request, user)
+            order = Electronics.objects.all()
+            # order.update(orderassign='anil')
+            # order = Orders.objects.all().filter(id= 1)
+            ser = electronicsSerializer(order, many=True)
+            response = ser.data
+            # return JsonResponse(response, safe=False)
+            return render(request, 'test.html')
+
+
+
+
 def index(request):
     print("hello")
     if (request.method == 'GET'):

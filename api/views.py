@@ -73,7 +73,7 @@ def index(request):
                 'itemname': 'battery',
                 'category': 'Electronics',
                 'takenby': 'anil',
-                'atatus': 'inuse',
+                'status': 'inuse',
 
             }
 
